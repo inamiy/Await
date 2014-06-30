@@ -1,0 +1,6 @@
+[submodule "Demo/Vendor/SVProgressHUD"]
+	path = Demo/Vendor/SVProgressHUD
+	url = https://github.com/samvermette/SVProgressHUD.git
+[submodule "Demo/Vendor/PromiseKit"]
+	path = Demo/Vendor/PromiseKit
+	url = https://github.com/mxcl/PromiseKit.git
