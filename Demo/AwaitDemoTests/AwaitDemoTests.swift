@@ -32,6 +32,23 @@ class AwaitDemoTests: XCTestCase {
         
         XCTAssertNotNil(self.response, "Should GET html data.")
     }
+    
+    func testAwaitWithUntil()
+    {
+        let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+        
+        var shouldStop = false
+        
+        self.response = await({
+            dispatch_async(queue) {
+                sleep(1)
+                shouldStop = true
+            }
+            return NSData() // dummy
+        }, until: { shouldStop })
+        
+        XCTAssertNotNil(self.response, "Should await for data.")
+    }
 
     func testAwaitWithTimeout()
     {
