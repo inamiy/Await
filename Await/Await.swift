@@ -35,7 +35,7 @@ struct Await
         while (!finished || !until()) &&
             (timeout <= 0.0 || NSDate().timeIntervalSinceDate(startDate) < timeout)
         {
-            NSRunLoop.currentRunLoop().runUntilDate(NSDate(timeIntervalSinceNow:0.01))
+            NSRunLoop.currentRunLoop().runUntilDate(NSDate(timeIntervalSinceNow:0.1))
         }
         
         //
@@ -49,6 +49,69 @@ struct Await
         
         return result
     }
+    
+    static func awaitForFinishableClosure<T>(
+        finishableClosure: (finish: T? -> Void) -> Void,
+        queue: dispatch_queue_t? = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
+        timeout: NSTimeInterval = 0.0
+        ) -> T?
+    {
+        var result: T?
+        
+        if dispatch_queue_get_label(queue) == dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL) {
+            finishableClosure({ delayedResult in
+                result = delayedResult
+            })
+            return result
+        }
+        
+        var finished = false
+        
+        dispatch_async(queue) {
+            finishableClosure { delayedResult in
+                result = delayedResult
+                finished = true
+            }
+        }
+        
+        let startDate = NSDate()
+        
+        while (!finished) &&
+            (timeout <= 0.0 || NSDate().timeIntervalSinceDate(startDate) < timeout)
+        {
+            NSRunLoop.currentRunLoop().runUntilDate(NSDate(timeIntervalSinceNow:0.1))
+        }
+        
+        return result
+    }
+    
+    static func awaitForFinishableNoReturnClosure(
+        finishableClosure: (finish: () -> Void) -> Void,
+        queue: dispatch_queue_t? = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
+        timeout: NSTimeInterval = 0.0
+        )
+    {
+        if dispatch_queue_get_label(queue) == dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL) {
+            finishableClosure({})
+            return
+        }
+        
+        var finished = false
+        
+        dispatch_async(queue) {
+            finishableClosure {
+                finished = true
+            }
+        }
+        
+        let startDate = NSDate()
+        
+        while (!finished) &&
+            (timeout <= 0.0 || NSDate().timeIntervalSinceDate(startDate) < timeout)
+        {
+            NSRunLoop.currentRunLoop().runUntilDate(NSDate(timeIntervalSinceNow:0.1))
+        }
+    }
 }
 
 func await<T>(
@@ -59,4 +122,22 @@ func await<T>(
     ) -> T?
 {
     return Await.awaitForClosure(closure, until: until, queue: queue, timeout: timeout)
+}
+
+func await<T>(
+    finishableClosure: (finish: T? -> Void) -> Void,
+    queue: dispatch_queue_t? = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
+    timeout: NSTimeInterval = 0
+    ) -> T?
+{
+    return Await.awaitForFinishableClosure(finishableClosure, queue: queue, timeout: timeout)
+}
+
+func await(
+    finishableClosure: (finish: () -> Void) -> Void,
+    queue: dispatch_queue_t? = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
+    timeout: NSTimeInterval = 0
+    )
+{
+    return Await.awaitForFinishableNoReturnClosure(finishableClosure, queue: queue, timeout: timeout)
 }

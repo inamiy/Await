@@ -91,7 +91,7 @@ class AwaitDemoTests: XCTestCase {
     
     func testAwaitWithNSOperation()
     {
-        let operation = NSBlockOperation(block: { sleep(CUnsignedInt(1)); return })
+        let operation = NSBlockOperation(block: { sleep(1); return })
         operation.completionBlock = { println("operation finished.") }
         
         self.response = await({
@@ -109,8 +109,8 @@ class AwaitDemoTests: XCTestCase {
         let operationQueue = NSOperationQueue()
         operationQueue.maxConcurrentOperationCount = 1
         
-        for i in 0..5 {
-            let operation = NSBlockOperation(block: { sleep(CUnsignedInt(1)); return })
+        for i in 0..3 {
+            let operation = NSBlockOperation(block: { sleep(1); return })
             operation.completionBlock = { println("operation[\(i)] finished.") }
             operationQueue.addOperation(operation)
         }
@@ -120,6 +120,35 @@ class AwaitDemoTests: XCTestCase {
         }, until: {
             return operationQueue.operationCount == 0
         })
+        
+        XCTAssertNotNil(self.response, "Should await for data.")
+    }
+    
+    func testAwaitFinishable()
+    {
+        let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+        
+        self.response = await { finish in
+            dispatch_async(queue) {
+                sleep(1)
+                finish(NSData())  // dummy
+            }
+        }
+        
+        XCTAssertNotNil(self.response, "Should await for data.")
+    }
+    
+    func testAwaitFinishableNoReturn()
+    {
+        let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+        
+        await { finish in
+            dispatch_async(queue) {
+                sleep(1)
+                self.response = NSData()  // dummy
+                finish()
+            }
+        }
         
         XCTAssertNotNil(self.response, "Should await for data.")
     }
