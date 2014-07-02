@@ -87,5 +87,30 @@ let result = await({ promise.value }, until: { !promise.pending })
 ### await + timeout
 
 ```
-await({ downloadLargeImageFromWeb() }, timeout: 3)  // returns nil if 3 sec has passed
+let image = await({ downloadLargeImageFromWeb() }, timeout: 3)  // returns nil if 3 sec has passed
 ```
+
+### await + finishable closure
+
+You can even use `finish()` or `finish(returnValue)` inside closure to manually stop running Run Loop instead of using `await(_:until:)`.
+
+```
+let data = await { finish in
+    dispatch_async(queue) {
+        let d = downloadData()
+        finish(d)  // pass result data 
+    }
+}
+```
+
+```
+var data: NSData?
+await { finish in
+    dispatch_async(queue) {
+        let d = downloadData()
+        data = d
+        finish()  // no return
+    }
+}
+```
+
