@@ -12,6 +12,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                         <sections>
                             <tableViewSection headerTitle="Section-1" id="4vh-fh-s9J">
                                 <cells>
@@ -129,7 +130,13 @@
                             <outlet property="delegate" destination="CuH-64-Mh9" id="5wJ-bj-hwQ"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="AwaitDemo" id="jRD-gY-u8P"/>
+                    <navigationItem key="navigationItem" title="AwaitDemo" id="jRD-gY-u8P">
+                        <barButtonItem key="rightBarButtonItem" title="Await" id="pra-Z9-pHb">
+                            <connections>
+                                <action selector="startAwait" destination="CuH-64-Mh9" id="aPf-sE-L08"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TyW-4f-H63" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
