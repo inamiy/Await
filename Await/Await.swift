@@ -35,7 +35,7 @@ struct Await
         while (!finished || !until()) &&
             (timeout <= 0.0 || NSDate().timeIntervalSinceDate(startDate) < timeout)
         {
-            NSRunLoop.currentRunLoop().runUntilDate(NSDate(timeIntervalSinceNow:0.1))
+            CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.1 , Boolean(0))
         }
         
         //
@@ -79,7 +79,7 @@ struct Await
         while (!finished) &&
             (timeout <= 0.0 || NSDate().timeIntervalSinceDate(startDate) < timeout)
         {
-            NSRunLoop.currentRunLoop().runUntilDate(NSDate(timeIntervalSinceNow:0.1))
+            CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.1 , Boolean(0))
         }
         
         return result
@@ -109,8 +109,14 @@ struct Await
         while (!finished) &&
             (timeout <= 0.0 || NSDate().timeIntervalSinceDate(startDate) < timeout)
         {
-            NSRunLoop.currentRunLoop().runUntilDate(NSDate(timeIntervalSinceNow:0.1))
+            CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.1 , Boolean(0))
         }
+    }
+    
+    // for application use
+    static func asyncClosure(closure: () -> Void)
+    {
+        CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopDefaultMode, closure)
     }
 }
 
@@ -140,4 +146,18 @@ func await(
     )
 {
     return Await.awaitForFinishableNoReturnClosure(finishableClosure, queue: queue, timeout: timeout)
+}
+
+//
+// NOTE:
+// For applicaiton use, you MUST wrap `await` calls with `async`.
+// This is to ensure that `await` will not block `dispatch_get_main_queue()`
+// which often causes UIKit not responding to touches.
+//
+// LIMITATION:
+// `await(_:timeout:)` may not work properly inside `async` due to nested RunLoop running.
+//
+func async(closure: () -> Void)
+{
+    Await.asyncClosure(closure)
 }
