@@ -3,7 +3,7 @@ Await
 
 Swift port of C# Await using Cocoa's Run Loop mechanism.
 
-(Useful for unit testing, but not fully adaptive for application use)
+(Useful for unit testing, but not fully adaptive [for application use](#for-application-use))
 
 
 ### Without `Await`
@@ -116,3 +116,24 @@ await { finish in
 }
 ```
 
+
+<a name="for-application-use"></a>
+
+For application use
+-------------------
+
+For applicaiton use, you MUST wrap `await` calls with `async` as follows:
+
+```
+async {
+    var image = await { downloadLargeImageFromWeb() }
+    image = await { filterImage(image) } 
+}
+```
+
+This is to ensure that `await` will not block `dispatch_get_main_queue()`
+which often causes UIKit not responding to touches.
+
+#### Limitation
+
+`await(_:timeout:)` and *nested awaits* may not finish at proper time inside `async` due to nested RunLoop running.
