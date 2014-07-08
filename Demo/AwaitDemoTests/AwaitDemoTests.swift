@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import PromiseKit
+//import PromiseKit
 
 class AwaitDemoTests: XCTestCase {
     
@@ -69,25 +69,25 @@ class AwaitDemoTests: XCTestCase {
         XCTAssertNotNil(self.response, "Should GET html data within \(timeout) seconds.")
     }
     
-    func testAwaitWithPromiseKit()
-    {
-        let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-//        let queue = dispatch_get_main_queue()
-        
-        let promise = Promise<NSData> { [weak self] (fulfiller, rejecter) in
-            dispatch_async(queue) {
-                let data = NSURLConnection.sendSynchronousRequest(self!.request, returningResponse:nil, error: nil)
-                fulfiller(data)
-            }
-        }.then(onQueue: queue) { (data: NSData) -> NSData in
-            return data
-        }
-        
-//        self.response = await({ promise.value }, until: { !promise.pending })
-        self.response = await(promise)
-        
-        XCTAssertNotNil(self.response, "Should GET html data.")
-    }
+//    func testAwaitWithPromiseKit()
+//    {
+//        let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+////        let queue = dispatch_get_main_queue()
+//        
+//        let promise = Promise<NSData> { [weak self] (fulfiller, rejecter) in
+//            dispatch_async(queue) {
+//                let data = NSURLConnection.sendSynchronousRequest(self!.request, returningResponse:nil, error: nil)
+//                fulfiller(data)
+//            }
+//        }.then(onQueue: queue) { (data: NSData) -> NSData in
+//            return data
+//        }
+//        
+////        self.response = await({ promise.value }, until: { !promise.pending })
+//        self.response = await(promise)
+//        
+//        XCTAssertNotNil(self.response, "Should GET html data.")
+//    }
     
     func testAwaitWithNSOperation()
     {
@@ -109,7 +109,7 @@ class AwaitDemoTests: XCTestCase {
         let operationQueue = NSOperationQueue()
         operationQueue.maxConcurrentOperationCount = 1
         
-        for i in 0..3 {
+        for i in 0 ..< 3 {
             let operation = NSBlockOperation(block: { sleep(1); return })
             operation.completionBlock = { println("operation[\(i)] finished.") }
             operationQueue.addOperation(operation)

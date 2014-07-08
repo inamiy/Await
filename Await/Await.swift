@@ -10,7 +10,7 @@ import Foundation
 
 struct Await
 {
-    static func awaitForClosure<T>(
+    static func awaitForClosure<T: Equatable>(
         closure: () -> T?,
         until: () -> Bool = { true },
         queue: dispatch_queue_t? = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
@@ -120,7 +120,7 @@ struct Await
     }
 }
 
-func await<T>(
+func await<T: Equatable>(
     closure: () -> T?,
     until: () -> Bool = { true },
     queue: dispatch_queue_t? = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),

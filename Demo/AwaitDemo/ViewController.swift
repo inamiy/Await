@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import PromiseKit
+//import PromiseKit
 
 class ViewController: UITableViewController
 {
@@ -83,24 +83,24 @@ class ViewController: UITableViewController
         return await({ sleep(2) }, timeout: 1)
     }
     
-    func _performAwaitWithPromiseKit() -> Any?
-    {
-        let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-//        let queue = dispatch_get_main_queue()
-        
-        let promise = Promise<NSData> { (fulfiller, rejecter) in
-            dispatch_async(queue) {
-                let request = NSURLRequest(URL: NSURL(string:"https://github.com"))
-                let data = NSURLConnection.sendSynchronousRequest(request, returningResponse:nil, error: nil)
-                fulfiller(data)
-            }
-        }.then(onQueue: queue) { (data: NSData) -> NSString in
-            return NSString(data: data, encoding: NSUTF8StringEncoding)
-        }
-        
-//        return await({ promise.value }, until: { !promise.pending } )
-        return await(promise)
-    }
+//    func _performAwaitWithPromiseKit() -> Any?
+//    {
+//        let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+////        let queue = dispatch_get_main_queue()
+//        
+//        let promise = Promise<NSData> { (fulfiller, rejecter) in
+//            dispatch_async(queue) {
+//                let request = NSURLRequest(URL: NSURL(string:"https://github.com"))
+//                let data = NSURLConnection.sendSynchronousRequest(request, returningResponse:nil, error: nil)
+//                fulfiller(data)
+//            }
+//        }.then(onQueue: queue) { (data: NSData) -> NSString in
+//            return NSString(data: data, encoding: NSUTF8StringEncoding)
+//        }
+//        
+////        return await({ promise.value }, until: { !promise.pending } )
+//        return await(promise)
+//    }
     
     override func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!)
     {

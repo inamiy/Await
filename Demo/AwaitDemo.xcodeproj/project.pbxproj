@@ -14,9 +14,6 @@
 		1F0EE062195F793A003A7F09 /* AwaitDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0EE061195F793A003A7F09 /* AwaitDemoTests.swift */; };
 		1FB6112C1961A83A006B0C53 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1FB6111A1961A83A006B0C53 /* SVProgressHUD.bundle */; };
 		1FB6112D1961A83A006B0C53 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB6111C1961A83A006B0C53 /* SVProgressHUD.m */; };
-		1FB611E51961A926006B0C53 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FB611E01961A905006B0C53 /* PromiseKit.framework */; };
-		1FDDE14A1961A483002BAE69 /* Await+PromiseKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDDE1481961A483002BAE69 /* Await+PromiseKit.swift */; };
-		1FDDE14B1961A483002BAE69 /* Await+PromiseKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDDE1481961A483002BAE69 /* Await+PromiseKit.swift */; };
 		1FDDE14C1961A483002BAE69 /* Await.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDDE1491961A483002BAE69 /* Await.swift */; };
 		1FDDE14D1961A483002BAE69 /* Await.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDDE1491961A483002BAE69 /* Await.swift */; };
 /* End PBXBuildFile section */
@@ -29,26 +26,19 @@
 			remoteGlobalIDString = 1F0EE048195F793A003A7F09;
 			remoteInfo = AwaitDemo;
 		};
-		1FB611DF1961A905006B0C53 /* PBXContainerItemProxy */ = {
+		1F543A94196B797D00EEEF4E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 1FB6115D1961A905006B0C53 /* PromiseKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 637D0F1119437D4C0059AD78;
-			remoteInfo = PromiseKit;
+			containerPortal = 1F0EE041195F793A003A7F09 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1F0EE048195F793A003A7F09;
+			remoteInfo = AwaitDemo;
 		};
-		1FB611E11961A905006B0C53 /* PBXContainerItemProxy */ = {
+		1F543A96196B797D00EEEF4E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 1FB6115D1961A905006B0C53 /* PromiseKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 637D0F1219437D4C0059AD78;
-			remoteInfo = PromiseKitTests;
-		};
-		1FB611E31961A905006B0C53 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1FB6115D1961A905006B0C53 /* PromiseKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 637D0F1019437D4C0059AD78;
-			remoteInfo = PMKDemo;
+			containerPortal = 1F0EE041195F793A003A7F09 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1F0EE048195F793A003A7F09;
+			remoteInfo = AwaitDemo;
 		};
 		1FB611E61961AC0B006B0C53 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -81,8 +71,6 @@
 		1FB6111A1961A83A006B0C53 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
 		1FB6111B1961A83A006B0C53 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		1FB6111C1961A83A006B0C53 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
-		1FB6115D1961A905006B0C53 /* PromiseKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = PromiseKit.xcodeproj; sourceTree = "<group>"; };
-		1FDDE1481961A483002BAE69 /* Await+PromiseKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Await+PromiseKit.swift"; sourceTree = "<group>"; };
 		1FDDE1491961A483002BAE69 /* Await.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Await.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -91,7 +79,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1FB611E51961A926006B0C53 /* PromiseKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,37 +169,10 @@
 			path = SVProgressHUD;
 			sourceTree = "<group>";
 		};
-		1FB611351961A905006B0C53 /* PromiseKit */ = {
-			isa = PBXGroup;
-			children = (
-				1FB611581961A905006B0C53 /* swift */,
-			);
-			path = PromiseKit;
-			sourceTree = "<group>";
-		};
-		1FB611581961A905006B0C53 /* swift */ = {
-			isa = PBXGroup;
-			children = (
-				1FB6115D1961A905006B0C53 /* PromiseKit.xcodeproj */,
-			);
-			path = swift;
-			sourceTree = "<group>";
-		};
-		1FB6115E1961A905006B0C53 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				1FB611E01961A905006B0C53 /* PromiseKit.framework */,
-				1FB611E21961A905006B0C53 /* PromiseKitTests.xctest */,
-				1FB611E41961A905006B0C53 /* PMKDemo.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		1FDDE1471961A483002BAE69 /* Await */ = {
 			isa = PBXGroup;
 			children = (
 				1FDDE1491961A483002BAE69 /* Await.swift */,
-				1FDDE1481961A483002BAE69 /* Await+PromiseKit.swift */,
 			);
 			name = Await;
 			path = ../Await;
@@ -221,7 +181,6 @@
 		1FDDE14E1961A673002BAE69 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				1FB611351961A905006B0C53 /* PromiseKit */,
 				1FB611031961A83A006B0C53 /* SVProgressHUD */,
 			);
 			path = Vendor;
@@ -269,6 +228,8 @@
 				1F0EE05D195F793A003A7F09 /* PBXTargetDependency */,
 				1FB611E71961AC0B006B0C53 /* PBXTargetDependency */,
 				481BBB5319625D4C003BA38D /* PBXTargetDependency */,
+				1F543A95196B797D00EEEF4E /* PBXTargetDependency */,
+				1F543A97196B797D00EEEF4E /* PBXTargetDependency */,
 			);
 			name = AwaitDemoTests;
 			productName = AwaitDemoTests;
@@ -289,7 +250,6 @@
 					};
 					1F0EE05A195F793A003A7F09 = {
 						CreatedOnToolsVersion = 6.0;
-						TestTargetID = 1F0EE048195F793A003A7F09;
 					};
 				};
 			};
@@ -304,12 +264,6 @@
 			mainGroup = 1F0EE040195F793A003A7F09;
 			productRefGroup = 1F0EE04A195F793A003A7F09 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 1FB6115E1961A905006B0C53 /* Products */;
-					ProjectRef = 1FB6115D1961A905006B0C53 /* PromiseKit.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				1F0EE048195F793A003A7F09 /* AwaitDemo */,
@@ -317,30 +271,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		1FB611E01961A905006B0C53 /* PromiseKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = PromiseKit.framework;
-			remoteRef = 1FB611DF1961A905006B0C53 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1FB611E21961A905006B0C53 /* PromiseKitTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = PromiseKitTests.xctest;
-			remoteRef = 1FB611E11961A905006B0C53 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1FB611E41961A905006B0C53 /* PMKDemo.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = PMKDemo.app;
-			remoteRef = 1FB611E31961A905006B0C53 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1F0EE047195F793A003A7F09 /* Resources */ = {
@@ -370,7 +300,6 @@
 				1FDDE14C1961A483002BAE69 /* Await.swift in Sources */,
 				1F0EE051195F793A003A7F09 /* ViewController.swift in Sources */,
 				1F0EE04F195F793A003A7F09 /* AppDelegate.swift in Sources */,
-				1FDDE14A1961A483002BAE69 /* Await+PromiseKit.swift in Sources */,
 				1FB6112D1961A83A006B0C53 /* SVProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -379,7 +308,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1FDDE14B1961A483002BAE69 /* Await+PromiseKit.swift in Sources */,
 				1F0EE062195F793A003A7F09 /* AwaitDemoTests.swift in Sources */,
 				1FDDE14D1961A483002BAE69 /* Await.swift in Sources */,
 			);
@@ -392,6 +320,16 @@
 			isa = PBXTargetDependency;
 			target = 1F0EE048195F793A003A7F09 /* AwaitDemo */;
 			targetProxy = 1F0EE05C195F793A003A7F09 /* PBXContainerItemProxy */;
+		};
+		1F543A95196B797D00EEEF4E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1F0EE048195F793A003A7F09 /* AwaitDemo */;
+			targetProxy = 1F543A94196B797D00EEEF4E /* PBXContainerItemProxy */;
+		};
+		1F543A97196B797D00EEEF4E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1F0EE048195F793A003A7F09 /* AwaitDemo */;
+			targetProxy = 1F543A96196B797D00EEEF4E /* PBXContainerItemProxy */;
 		};
 		1FB611E71961AC0B006B0C53 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -526,7 +464,6 @@
 		1F0EE069195F793A003A7F09 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/AwaitDemo.app/AwaitDemo";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -539,14 +476,12 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				METAL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
 			name = Debug;
 		};
 		1F0EE06A195F793A003A7F09 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/AwaitDemo.app/AwaitDemo";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -555,7 +490,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				METAL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
 			name = Release;
 		};
