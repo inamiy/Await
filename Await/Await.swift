@@ -10,7 +10,7 @@ import Foundation
 
 struct Await
 {
-    static func awaitForClosure<T: Equatable>(
+    static func awaitForClosure<T>(
         closure: () -> T?,
         until: () -> Bool = { true },
         queue: dispatch_queue_t? = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
@@ -43,7 +43,7 @@ struct Await
         // (for example, when closure is wrapping other asyncs e.g. promise, which is still executing),
         // so retrieve the result once more.
         //
-        if !firstUntil && result == nil {
+        if !firstUntil && !result {
             result = closure()
         }
         
@@ -120,7 +120,7 @@ struct Await
     }
 }
 
-func await<T: Equatable>(
+func await<T>(
     closure: () -> T?,
     until: () -> Bool = { true },
     queue: dispatch_queue_t? = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
