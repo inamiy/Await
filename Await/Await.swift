@@ -85,34 +85,6 @@ struct Await
         return result
     }
     
-    static func awaitForFinishableNoReturnClosure(
-        finishableClosure: (finish: () -> Void) -> Void,
-        queue: dispatch_queue_t? = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
-        timeout: NSTimeInterval = 0.0
-        )
-    {
-        if dispatch_queue_get_label(queue) == dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL) {
-            finishableClosure({})
-            return
-        }
-        
-        var finished = false
-        
-        dispatch_async(queue) {
-            finishableClosure {
-                finished = true
-            }
-        }
-        
-        let startDate = NSDate()
-        
-        while (!finished) &&
-            (timeout <= 0.0 || NSDate().timeIntervalSinceDate(startDate) < timeout)
-        {
-            CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.1 , Boolean(0))
-        }
-    }
-    
     // for application use
     static func asyncClosure(closure: () -> Void)
     {
@@ -145,7 +117,9 @@ func await(
     timeout: NSTimeInterval = 0
     )
 {
-    return Await.awaitForFinishableNoReturnClosure(finishableClosure, queue: queue, timeout: timeout)
+    Await.awaitForFinishableClosure({ (finish: Void? -> Void) in
+        finishableClosure { finish(nil) }
+    }, queue: queue, timeout: timeout)
 }
 
 //
