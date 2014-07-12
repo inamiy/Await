@@ -33,6 +33,17 @@ class AwaitDemoTests: XCTestCase {
         XCTAssertNotNil(self.response, "Should GET html data.")
     }
     
+    func testAwaitTuple()
+    {
+        let result: (value: Int?, error: NSError?)? = await {
+            sleep(1);
+            return (nil, NSError(domain: "AwaitDemoTest", code: -1, userInfo: nil))
+        }
+        
+        XCTAssertNil(result!.value, "Should not return value.")
+        XCTAssertNotNil(result!.error, "Should return error.")
+    }
+    
     func testAwaitWithUntil()
     {
         let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
