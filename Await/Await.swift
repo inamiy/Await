@@ -85,6 +85,17 @@ struct Await
         return result
     }
     
+    static func awaitForFinishableClosure(
+        finishableClosure: (finish: () -> Void) -> Void,
+        queue: dispatch_queue_t? = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
+        timeout: NSTimeInterval = 0.0
+        )
+    {
+        self.awaitForFinishableClosure({ (finish: ()? -> Void) in
+            finishableClosure { finish(nil) }
+        }, queue: queue, timeout: timeout)
+    }
+    
     // for application use
     static func asyncClosure(closure: () -> Void)
     {
@@ -117,9 +128,7 @@ func await(
     timeout: NSTimeInterval = 0
     )
 {
-    Await.awaitForFinishableClosure({ (finish: Void? -> Void) in
-        finishableClosure { finish(nil) }
-    }, queue: queue, timeout: timeout)
+    Await.awaitForFinishableClosure(finishableClosure, queue: queue, timeout: timeout)
 }
 
 //
