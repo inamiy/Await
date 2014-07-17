@@ -88,7 +88,7 @@ struct Await
     // for application use
     static func asyncClosure(closure: () -> Void)
     {
-        CFRunLoopPerformBlock(CFRunLoopGetCurrent(), kCFRunLoopDefaultMode, closure)
+        CFRunLoopPerformBlock(CFRunLoopGetCurrent(), kCFRunLoopCommonModes, closure)
     }
 }
 
