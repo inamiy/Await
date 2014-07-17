@@ -36,7 +36,7 @@ class AwaitDemoTests: XCTestCase {
     func testAwaitTuple()
     {
         let result: (value: Int?, error: NSError?)? = await {
-            sleep(1);
+            usleep(100_000);
             return (nil, NSError(domain: "AwaitDemoTest", code: -1, userInfo: nil))
         }
         
@@ -52,7 +52,7 @@ class AwaitDemoTests: XCTestCase {
         
         self.response = await({
             dispatch_async(queue) {
-                sleep(1)
+                usleep(100_000)
                 shouldStop = true
             }
             return NSData() // dummy
@@ -63,18 +63,18 @@ class AwaitDemoTests: XCTestCase {
 
     func testAwaitWithTimeout()
     {
-        let timeout = 1.0
+        let timeout = 0.2   // 200ms
         
         self.response = await({
-            sleep(CUnsignedInt(timeout)+1)  // sleep well to demonstrate timeout error
+            usleep(300_000) // 300ms, sleep well to demonstrate timeout error
             return NSData() // dummy
         }, timeout: timeout)
         
         XCTAssertNil(self.response, "Should time out and return nil.")
         
         self.response = await({
-            // no sleep
-            return NSURLConnection.sendSynchronousRequest(self.request, returningResponse: nil, error: nil)
+            usleep(100_000) // 100ms
+            return NSData()
         }, timeout: timeout)
         
         XCTAssertNotNil(self.response, "Should GET html data within \(timeout) seconds.")
@@ -102,7 +102,7 @@ class AwaitDemoTests: XCTestCase {
     
     func testAwaitWithNSOperation()
     {
-        let operation = NSBlockOperation(block: { sleep(1); return })
+        let operation = NSBlockOperation(block: { usleep(100_000); return })
         operation.completionBlock = { println("operation finished.") }
         
         self.response = await({
@@ -121,7 +121,7 @@ class AwaitDemoTests: XCTestCase {
         operationQueue.maxConcurrentOperationCount = 1
         
         for i in 0 ..< 3 {
-            let operation = NSBlockOperation(block: { sleep(1); return })
+            let operation = NSBlockOperation(block: { usleep(100_000); return })
             operation.completionBlock = { println("operation[\(i)] finished.") }
             operationQueue.addOperation(operation)
         }
@@ -141,7 +141,7 @@ class AwaitDemoTests: XCTestCase {
         
         self.response = await { finish in
             dispatch_async(queue) {
-                sleep(1)
+                usleep(100_000)
                 finish(NSData())  // dummy
             }
         }
@@ -155,7 +155,7 @@ class AwaitDemoTests: XCTestCase {
         
         await { finish in
             dispatch_async(queue) {
-                sleep(1)
+                usleep(100_000)
                 self.response = NSData()  // dummy
                 finish()
             }
