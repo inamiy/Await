@@ -43,7 +43,7 @@ struct Await
         // (for example, when closure is wrapping other asyncs e.g. promise, which is still executing),
         // so retrieve the result once more.
         //
-        if !firstUntil && !result {
+        if firstUntil == nil && result == nil {
             result = closure()
         }
         
