@@ -102,10 +102,10 @@ class ViewController: UITableViewController
 //        return await(promise)
 //    }
     
-    override func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!)
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         let vc = self.storyboard!.instantiateViewControllerWithIdentifier("ViewController") as? UIViewController
-        self.navigationController.pushViewController(vc, animated: true)
+        self.navigationController?.pushViewController(vc!, animated: true)
     }
 }
 
