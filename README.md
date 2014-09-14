@@ -23,7 +23,7 @@ dispatch_async(globalQueue) {
     
     dispatch_async(dispatch_get_main_queue()) {
         showProgressHUD("Finished!")  // main-thread
-        
+
         // want more nested blocks here?
     }
 }
@@ -60,19 +60,19 @@ let image = await { downloadLargeImageFromWeb() }
 var shouldStop = false
 var container: SomeContainer
 
-let result = await({
+let result = await(until: shouldStop) {
     container.data = nil
-    
+
     dispatch_async(globalQueue) {
         container.data = downloadData()
         shouldStop = true
     }
-    
+
     return container.data
-}, until: { shouldStop })
+}
 ```
 
-Use `until: () -> Bool` to manually adjust the Run Loop running time.
+Use `until` to manually adjust the Run Loop running time.
 This is especially useful in combination with async-programming monads like [Promise](http://promises-aplus.github.io/promises-spec/).
 
 Take a look at [PromiseKit](https://github.com/mxcl/PromiseKit) example:
@@ -82,25 +82,25 @@ import PromiseKit
 var promise = Promise<NSData> { (fulfiller, rejecter) in ... }
 ...
 
-let result = await({ promise.value }, until: { !promise.pending })
+let result = await(until: !promise.pending) { promise.value }
 // or, let result = await(promise)
 ```
 
 ### await + timeout
 
 ```
-let image = await({ downloadLargeImageFromWeb() }, timeout: 3)  // returns nil if 3 sec has passed
+let image = await(timeout: 3) { downloadLargeImageFromWeb() }  // returns nil if 3 sec has passed
 ```
 
 ### await + finishable closure
 
-You can even use `finish()` or `finish(returnValue)` inside closure to manually stop running Run Loop instead of using `await(_:until:)`.
+You can even use `finish()` or `finish(returnValue)` inside closure to manually stop running Run Loop instead of using `await + until`.
 
 ```
 let data = await { finish in
     dispatch_async(queue) {
         let d = downloadData()
-        finish(d)  // pass result data 
+        finish(d)  // pass result data
     }
 }
 ```
@@ -127,7 +127,7 @@ For applicaiton use, you MUST wrap `await` calls with `async` as follows:
 ```
 async {
     var image = await { downloadLargeImageFromWeb() }
-    image = await { filterImage(image) } 
+    image = await { filterImage(image) }
 }
 ```
 
@@ -136,4 +136,4 @@ which often causes UIKit not responding to touches.
 
 #### Limitation
 
-`await(_:timeout:)` and *nested awaits* may not finish at proper time inside `async` due to nested RunLoop running.
+`await + timeout` and *nested awaits* may not finish at proper time inside `async` due to nested RunLoop running.
