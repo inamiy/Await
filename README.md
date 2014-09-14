@@ -3,7 +3,7 @@ Await
 
 Swift port of C# Await using Cocoa's Run Loop mechanism.
 
-(Useful for unit testing, but not fully adaptive [for application use](#for-application-use))
+(Useful for unit testing, but needs special care [for application use](#for-application-use))
 
 
 ### Without `Await`
