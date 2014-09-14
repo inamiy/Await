@@ -103,29 +103,43 @@ struct Await
     }
 }
 
-func await<T>(
-    closure: () -> T?,
+/// await + until (as closure)
+public func await<T>(
     until: () -> Bool = { true },
     queue: dispatch_queue_t? = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
-    timeout: NSTimeInterval = 0
+    timeout: NSTimeInterval = 0,
+    closure: () -> T?
     ) -> T?
 {
     return Await.awaitForClosure(closure, until: until, queue: queue, timeout: timeout)
 }
 
-func await<T>(
-    finishableClosure: (finish: T? -> Void) -> Void,
+/// await + until (as Bool)
+public func await<T>(
+    #until: @autoclosure () -> Bool,
     queue: dispatch_queue_t? = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
-    timeout: NSTimeInterval = 0
+    timeout: NSTimeInterval = 0,
+    closure: () -> T?
+    ) -> T?
+{
+    return await(until: until as () -> Bool, queue: queue, timeout: timeout, closure)
+}
+
+/// await + finishableClosure (call finish(someObj) manually)
+public func await<T>(
+    queue: dispatch_queue_t? = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
+    timeout: NSTimeInterval = 0,
+    finishableClosure: (finish: T? -> Void) -> Void
     ) -> T?
 {
     return Await.awaitForFinishableClosure(finishableClosure, queue: queue, timeout: timeout)
 }
 
-func await(
-    finishableClosure: (finish: () -> Void) -> Void,
+/// await + finishableClosure (call finish() manually)
+public func await(
     queue: dispatch_queue_t? = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
-    timeout: NSTimeInterval = 0
+    timeout: NSTimeInterval = 0,
+    finishableClosure: (finish: () -> Void) -> Void
     )
 {
     Await.awaitForFinishableClosure(finishableClosure, queue: queue, timeout: timeout)
@@ -140,7 +154,7 @@ func await(
 // LIMITATION:
 // `await(_:timeout:)` may not work properly inside `async` due to nested RunLoop running.
 //
-func async(closure: () -> Void)
+public func async(closure: () -> Void)
 {
     Await.asyncClosure(closure)
 }

@@ -80,7 +80,7 @@ class ViewController: UITableViewController
     
     func _performAwaitWithTimeout() -> Any?
     {
-        return await({ sleep(2) }, timeout: 1)
+        return await(timeout: 1) { sleep(2) }
     }
     
 //    func _performAwaitWithPromiseKit() -> Any?

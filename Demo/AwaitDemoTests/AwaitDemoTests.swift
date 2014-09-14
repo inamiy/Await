@@ -50,13 +50,13 @@ class AwaitDemoTests: XCTestCase {
         
         var shouldStop = false
         
-        self.response = await({
+        self.response = await(until: shouldStop) {
             dispatch_async(queue) {
                 usleep(100_000)
                 shouldStop = true
             }
             return NSData() // dummy
-        }, until: { shouldStop })
+        }
         
         XCTAssertNotNil(self.response, "Should await for data.")
     }
@@ -65,17 +65,17 @@ class AwaitDemoTests: XCTestCase {
     {
         let timeout = 0.2   // 200ms
         
-        self.response = await({
+        self.response = await(timeout: timeout) {
             usleep(300_000) // 300ms, sleep well to demonstrate timeout error
             return NSData() // dummy
-        }, timeout: timeout)
+        }
         
         XCTAssertNil(self.response, "Should time out and return nil.")
         
-        self.response = await({
+        self.response = await(timeout: timeout) {
             usleep(100_000) // 100ms
             return NSData()
-        }, timeout: timeout)
+        }
         
         XCTAssertNotNil(self.response, "Should GET html data within \(timeout) seconds.")
     }
@@ -105,12 +105,10 @@ class AwaitDemoTests: XCTestCase {
         let operation = NSBlockOperation(block: { usleep(100_000); return })
         operation.completionBlock = { println("operation finished.") }
         
-        self.response = await({
+        self.response = await(until: operation.finished) {
             operation.start()
             return NSData() // dummy
-        }, until: {
-            return operation.finished == true
-        })
+        }
         
         XCTAssertNotNil(self.response, "Should await for data.")
     }
@@ -126,11 +124,9 @@ class AwaitDemoTests: XCTestCase {
             operationQueue.addOperation(operation)
         }
         
-        self.response = await({
+        self.response = await(until: operationQueue.operationCount == 0) {
             return NSData() // dummy
-        }, until: {
-            return operationQueue.operationCount == 0
-        })
+        }
         
         XCTAssertNotNil(self.response, "Should await for data.")
     }
